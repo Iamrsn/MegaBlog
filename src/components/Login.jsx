@@ -52,6 +52,7 @@ function Login() {
                     label="Email: "
                     placeholder="Enter your email"
                     type="email"
+                    //haar baar ...register karke value ko pread karege warna value ko overwrite kar dega wo..
                     {...register("email", {
                         required: true,
                         validate: {
