@@ -1,6 +1,6 @@
 import React from 'react'
-import {Editor } from '@tinymce/tinymce-react';
-import {Controller } from 'react-hook-form';
+import {Editor } from '@tinymce/tinymce-react'; //tinymce se lie hai..
+import {Controller } from 'react-hook-form'; //control karta streamline process ke lie or ye key value pair leta hai..
 
 
 export default function RTE({name, control, label, defaultValue =""}) {
@@ -8,17 +8,17 @@ export default function RTE({name, control, label, defaultValue =""}) {
     <div className='w-full'> 
     {label && <label className='inline-block mb-1 pl-1'>{label}</label>}
 
-    <Controller
+    <Controller  //key value pair leta naam deta control deta rules define karte haii..
     name={name || "content"}
-    control={control}
+    control={control} //control can be given by parent elememt..
     render={({field: {onChange}}) => (
         <Editor
-        initialValue={defaultValue}
+        initialValue={defaultValue} //initialize hote hi ap kya kya value chahte ho..
         init={{
             initialValue: defaultValue,
             height: 500,
             menubar: true,
-            plugins: [
+            plugins: [ //apko kya kya value chayey plugin me de do..
                 "image",
                 "advlist",
                 "autolink",
