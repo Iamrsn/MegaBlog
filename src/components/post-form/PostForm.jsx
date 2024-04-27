@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 
 export default function PostForm({post}) {
 
-    const {register,handleS,control,getValuesubmit,watch,setValue}=useForm({
+    const {register, handleSubmit, watch, setValue, control, getValues}=useForm({
         defaultValues:{
             title:post?.title || '', //user new value lene aaya hai to empty me de dega lekin kuch lene aaya hoga to kuch dena hoga
             slug:post?.slug ||'',
@@ -70,7 +70,7 @@ export default function PostForm({post}) {
             }
         });
 
-        return () => subscription.unsubscribe();
+        return () => subscription.unsubscribe(); //memory management karke unsubscribe kar dege..
     }, [watch, slugTransform, setValue]);
 
     return (
