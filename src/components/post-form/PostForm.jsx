@@ -5,31 +5,28 @@ import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-
-
-export default function PostForm({post}) {
-
-    const {register, handleSubmit, watch, setValue, control, getValues}=useForm({
-        defaultValues:{
-            title:post?.title || '', //user new value lene aaya hai to empty me de dega lekin kuch lene aaya hoga to kuch dena hoga
-            slug:post?.slug ||'',
+export default function PostForm({ post }) {
+    const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
+        defaultValues: {
+            title: post?.title || "",
+            slug: post?.$id || "",
             content: post?.content || "",
             status: post?.status || "active",
-        }
+        },
     });
-  
+
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
 
     const submit = async (data) => {
         if (post) {
-            const file = data.image[0] ? await appwriteService.uploadfile(data.image[0]) : null;
+            const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
 
             if (file) {
                 appwriteService.deleteFile(post.featuredImage);
             }
 
-            const dbPost = await appwriteService.updatepost(post.$id, {
+            const dbPost = await appwriteService.updatePost(post.$id, {
                 ...data,
                 featuredImage: file ? file.$id : undefined,
             });
@@ -38,12 +35,12 @@ export default function PostForm({post}) {
                 navigate(`/post/${dbPost.$id}`);
             }
         } else {
-            const file = await appwriteService.uploadfile(data.image[0]);
+            const file = await appwriteService.uploadFile(data.image[0]);
 
             if (file) {
-                const fileId = file.$id; //isme id ko $ se lete hai 
+                const fileId = file.$id;
                 data.featuredImage = fileId;
-                const dbPost = await appwriteService.createpost({ ...data, userId: userData.$id });
+                const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
 
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
@@ -54,10 +51,10 @@ export default function PostForm({post}) {
 
     const slugTransform = useCallback((value) => {
         if (value && typeof value === "string")
-            return value  //value return karke modify kar dege..
+            return value
                 .trim()
                 .toLowerCase()
-                .replace(/[^a-zA-Z\d\s]+/g, "-") //regex use kie haii
+                .replace(/[^a-zA-Z\d\s]+/g, "-")
                 .replace(/\s/g, "-");
 
         return "";
@@ -70,7 +67,7 @@ export default function PostForm({post}) {
             }
         });
 
-        return () => subscription.unsubscribe(); //memory management karke unsubscribe kar dege..
+        return () => subscription.unsubscribe();
     }, [watch, slugTransform, setValue]);
 
     return (

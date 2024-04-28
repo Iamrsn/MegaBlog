@@ -1,5 +1,5 @@
 import React, {useId} from 'react'
-//isme forwadref se leke use krke wrap up kar dege..
+
 const Input = React.forwardRef( function Input({
     label,
     type = "text",
